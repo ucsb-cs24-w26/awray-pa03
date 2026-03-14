@@ -181,7 +181,16 @@ double NeuralNetwork::contribute(int nodeId, const double& y, const double& p) {
     //    return contributions[nodeId];
     //}
 
-    visitContributeNode(nodeId, outgoingContribution);
+    bool found = false;
+    for (int i : inputNodeIds) {
+        if (i == nodeId) {
+            found = true;
+            break;
+        }
+    }
+    if (!found) {
+        visitContributeNode(nodeId, outgoingContribution);
+    }
 
     // Before returning, store outgoingContribution in the contributions map.
     contributions[nodeId] = outgoingContribution;

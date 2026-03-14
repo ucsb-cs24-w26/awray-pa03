@@ -99,8 +99,7 @@ void test_contribute() {
     //cout << nn.getAdjacencyList().at(0).begin()->second.source << endl;
     //cout << nn.getAdjacencyList().at(0).begin()->second.dest << endl;
 
-    //ASSERT_EQUAL(biasAfter - biasBefore, biasDiffExpected, "test_contribute: bias");
-    cout << "        PASSED: test_contribute: bias" << endl; // can't find anything wrong with my function. I don't see how the answer it produces is wrong.
+    ASSERT_EQUAL(biasAfter - biasBefore, biasDiffExpected, "test_contribute: bias");
     //cout << biasBefore << endl;
     //cout << biasAfter << endl;
     ASSERT_EQUAL(weightAfter - weightBefore, weightDiffExpected, "test_contribute: weight");
