@@ -36,12 +36,12 @@ void NeuralNetwork::setOutputNodeIds(std::vector<int> newOutputNodeIds) {
 
 // STUDENT TODO: IMPLEMENT
 vector<int> NeuralNetwork::getInputNodeIds() const {
-    return inputNodeIds; //stub
+    return inputNodeIds;
 }
 
 // STUDENT TODO: IMPLEMENT
 vector<int> NeuralNetwork::getOutputNodeIds() const {
-    return outputNodeIds; //stub
+    return outputNodeIds;
 }
 
 // STUDENT TODO: IMPLEMENT
@@ -121,7 +121,7 @@ vector<double> NeuralNetwork::predict(DataInstance instance) {
 // STUDENT TODO: IMPLEMENT
 bool NeuralNetwork::contribute(double y, double p) {
 
-    printNetwork();
+    //printNetwork();
 
     // DFT implementation goes here.
     // This function initiates the recursion by calling the recursive helper
@@ -144,13 +144,12 @@ bool NeuralNetwork::contribute(double y, double p) {
 // STUDENT TODO: IMPLEMENT
 double NeuralNetwork::contribute(int nodeId, const double& y, const double& p) {
 
-    //cout << "contribute start: " << nodeId << ", " << y << ", " << p << endl;
     visitContributeStart(nodeId); // don't remove this line, used for visualization
     // incomingContribution: the error signal returned by a recursive call on a neighbor.
-    double incomingContribution = 0;
+    double incomingContribution;
     // outgoingContribution: built up from this node's neighbors, then scaled by
     // this node's activation derivative before being returned to the previous layer.
-    double outgoingContribution;
+    double outgoingContribution = 0;
     NodeInfo* currNode = nodes.at(nodeId);
 
     // If this node is already in the contributions map, return its stored value immediately.
@@ -164,35 +163,21 @@ double NeuralNetwork::contribute(int nodeId, const double& y, const double& p) {
         // You do not need to understand this derivation.
 
         outgoingContribution = -1 * ((y - p) / (p * (1 - p)));
-        //outgoingContribution *= 1;
-        
-        //cout << "   outgoingContribution: " << outgoingContribution << endl;
+
     }
 
-    //else {
     for (auto& cpair : adjacencyList.at(nodeId)) {
         Connection& c = cpair.second;
         incomingContribution = contribute(c.dest, y ,p);
         visitContributeNeighbor(c, incomingContribution, outgoingContribution);
-        //cout << "   connection ids: " << c.source << ", " << c.dest << endl;
-        //cout << "       weight delta = " << c.delta << endl;
-        //cout << "       incomingContribution = " << incomingContribution << endl;
-        //cout << "       outgoingContribution = " << outgoingContribution << endl;
+
     }
 
     visitContributeNode(nodeId, outgoingContribution);
 
-    //}
-
-    //cout << "node id: " << nodeId << endl;
-    //cout << "   bias delta = " << nodes[nodeId]->delta << endl;
-    //cout << "   outgoingContribution = " << outgoingContribution << endl;
-
-    
     // Before returning, store outgoingContribution in the contributions map.
     contributions[nodeId] = outgoingContribution;
 
-    //cout << outgoingContribution << endl;
     return outgoingContribution;
 }
 // STUDENT TODO: IMPLEMENT
@@ -213,8 +198,8 @@ bool NeuralNetwork::update() {
         //cout << "node delta = " << nodes[i]->delta << endl;
         nodes[i]->bias = nodes[i]->bias - (learningRate * nodes[i]->delta);
         nodes[i]->delta = 0;
-        for (auto cpair : adjacencyList[i]) {
-            Connection c = cpair.second;
+        for (auto& cpair : adjacencyList[i]) {
+            Connection& c = cpair.second;
             //cout << "connection delta = " << c.delta << endl;
             c.weight = c.weight - (learningRate * c.delta);
             c.delta = 0;
