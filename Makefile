@@ -1,5 +1,7 @@
 CXX=g++
 CXX_FLAGS=-std=c++17
+# CXX_FLAGS=-std=c++20
+
 
 targets=neuralnet test_neuralnet visualizer
 

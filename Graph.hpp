@@ -133,7 +133,6 @@ class Graph {
 
         // TODO: graph methods
         void clear();
-
         
 };
 

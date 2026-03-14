@@ -32,9 +32,9 @@ class NeuralNetwork : public Graph {
         // sets the learning rate of the neural network: how impactful each gradient contribution is at each step.
         void setLearningRate(double lr);
         // contains set of node ids which correspond to input nodes
-        void setInputNodeIds(std::vector<int> inputNodeIds);
+        void setInputNodeIds(std::vector<int> newInputNodeIds);
         // contains a set of node ids which correspond to output nodes
-        void setOutputNodeIds(std::vector<int> outputNodeIds);
+        void setOutputNodeIds(std::vector<int> newOutputNodeIds);
         // gets the id's of every input node. 
         std::vector<int> getInputNodeIds() const;
         // gets the id's of every output node.
@@ -106,6 +106,7 @@ class NeuralNetwork : public Graph {
 
         // since NeuralNetwork inherits from Graph, you can imagine all of the graph members here as well...
 
+        void printNetwork();
 };
 
 #endif
