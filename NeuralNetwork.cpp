@@ -169,9 +169,17 @@ double NeuralNetwork::contribute(int nodeId, const double& y, const double& p) {
     for (auto& cpair : adjacencyList.at(nodeId)) {
         Connection& c = cpair.second;
         incomingContribution = contribute(c.dest, y ,p);
+        if (c.source != nodeId) {
+            cout << "connection source error" << endl;
+            exit(1);
+        }
         visitContributeNeighbor(c, incomingContribution, outgoingContribution);
 
     }
+
+    //if (contributions.find(nodeId) != contributions.end()) {
+    //    return contributions[nodeId];
+    //}
 
     visitContributeNode(nodeId, outgoingContribution);
 
